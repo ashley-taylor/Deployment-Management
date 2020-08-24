@@ -10,7 +10,7 @@ import Organisations from './containers/Organisations'
 import Organisation from './containers/Organisation'
 import User from './containers/User'
 import './App.css'
-import { Grid, Avatar, Typography, Link, ListItem, List, ListItemAvatar, ListItemText } from '@material-ui/core'
+import { Grid, Avatar, ListItem, List, ListItemAvatar, ListItemText } from '@material-ui/core'
 
 export function getApolloClient(getToken: Promise<() => Promise<string>>) {
   const httpLink = new HttpLink({ uri: 'https://api.github.com/graphql' })

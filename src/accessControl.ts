@@ -12,7 +12,7 @@ const urlParams = new URLSearchParams(search)
 const code = urlParams.get('code')
 
 const getToken = () => {
-  window.location.href = `https://github.com/login/oauth/authorize?client_id=Iv1.8b0b75bc0049753c&redirect_uri=http://localhost:3000&state=${state}`
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=Iv1.8b0b75bc0049753c&redirect_uri=https://ashley-taylor.github.io/Deployment-Management/&state=${state}`
 }
 
 type Response = {
@@ -77,7 +77,7 @@ if (code !== null) {
   const data = {
     code,
     state,
-    redirect_uri: 'http://localhost:3000'
+    redirect_uri: 'https://ashley-taylor.github.io/Deployment-Management/'
   }
   tokenFetcher = control.intialize(data)
 } else if (token === null) {
