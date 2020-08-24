@@ -1,0 +1,20 @@
+
+.topNav {
+  background-color: #000;
+  color: #fff;
+  align-items: center;
+}
+
+
+.topNav .switcher {
+  margin-left: auto;
+}
+
+.topNav .page-title {
+text-align: center;
+}
+
+.topNav a.badge {
+  color: white;
+
+}
