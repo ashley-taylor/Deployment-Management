@@ -39,7 +39,7 @@ function App(props: { getToken: Promise<() => Promise<string>> }) {
   const client = React.useMemo(() => getApolloClient(props.getToken), [])
   return (
     <ApolloProvider client={client}>
-      <Router basename="https://ashley-taylor.github.io/Deployment-Management/">
+      <Router>
         <Grid container spacing={0} className="topNav">
           <Grid item xs={4}>
             <List component="nav" aria-label="Select">
