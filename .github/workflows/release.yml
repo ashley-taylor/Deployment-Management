@@ -1,0 +1,44 @@
+name: bunnings-connect Release
+on:
+  deployment
+jobs:
+  release:
+    if: github.ref == 'refs/heads/master'
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: update deploy status
+        uses: unacast/actions-github-deployment-status@0.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          status: in_progress
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: npm ci
+      - run: npm run lint-ci
+      - run: npm test
+      - run: git config --global user.name ${{ secrets.ACTION_GITHUB_USERNAME }}; git config --global user.email ${{ secrets.ACTION_GITHUB_EMAIL }}
+      - run: npm run release -- ${{ github.event.deployment.payload.type }} --ci
+      - name: Read version
+        id: read_version
+        uses: ashley-taylor/read-json-property-action@master
+        with:
+          path: package.json
+          property: version
+      
+      
+      - run: npm run build
+      
+
+      - name: update deploy status
+        uses: unacast/actions-github-deployment-status@0.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+        if: always()
