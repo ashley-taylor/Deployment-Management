@@ -12,7 +12,8 @@ const urlParams = new URLSearchParams(search)
 const code = urlParams.get('code')
 
 const getToken = () => {
-  window.location.href = `https://github.com/login/oauth/authorize?client_id=Iv1.8b0b75bc0049753c&redirect_uri=https://ashley-taylor.github.io/Deployment-Management/&state=${state}`
+  const parts = encodeURIComponent(window.location.toString())
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=Iv1.8b0b75bc0049753c&redirect_uri=${parts}&state=${state}`
 }
 
 type Response = {
@@ -71,14 +72,14 @@ class TokenControl {
 
 const control = new TokenControl()
 
-const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = (redirect_uri) => {
+const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = () => {
   let tokenFetcher: Promise<() => Promise<string>>
   if (code !== null) {
     window.history.pushState({}, document.title, window.location.pathname)
     const data = {
       code,
       state,
-      redirect_uri: redirect_uri
+      redirect_uri: window.location.toString()
     }
     tokenFetcher = control.intialize(data)
   } else if (token === null) {
