@@ -23,7 +23,10 @@ const Organisations: FunctionComponent = () => {
           <ListItemAvatar>
             <Avatar src={data.viewer.avatarUrl}></Avatar>
           </ListItemAvatar>
-          <ListItemText onClick={() => history.push('/user' + data.viewer.resourcePath)} primary={data.viewer.name} />
+          <ListItemText
+            onClick={() => history.push('/user' + data.viewer.resourcePath)}
+            primary={data.viewer.name ? data.viewer.name : data.viewer.login}
+          />
         </ListItem>
         {data.viewer.organizations.nodes.map((organisation) => {
           return (

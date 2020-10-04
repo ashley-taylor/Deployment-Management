@@ -4,6 +4,7 @@ export const ORGANISATIONS = gql`
   query {
     viewer {
       resourcePath
+      login
       name
       avatarUrl
       organizations(first: 10) {
@@ -31,6 +32,7 @@ export type OrganisationsSummary = {
   organizations: {
     nodes: OrganisationSummary[]
   }
+  login: string
 } & OrganisationSummary
 
 export const USER_REPO = gql`
@@ -103,7 +105,19 @@ export const REPOSITORY = gql`
         id
         name
       }
-      deployments(first: 100) {
+      branches: refs(first: 100, orderBy: { direction: DESC, field: TAG_COMMIT_DATE }, refPrefix: "refs/heads/") {
+        nodes {
+          id
+          name
+        }
+      }
+      tags: refs(first: 100, orderBy: { direction: DESC, field: TAG_COMMIT_DATE }, refPrefix: "refs/tags/") {
+        nodes {
+          id
+          name
+        }
+      }
+      deployments(first: 100, orderBy: { direction: DESC, field: CREATED_AT }) {
         nodes {
           id
           description
@@ -114,6 +128,10 @@ export const REPOSITORY = gql`
           commit {
             id
             message
+          }
+          ref {
+            id
+            name
           }
           state
           payload
@@ -143,10 +161,33 @@ export const REPOSITORY = gql`
 
 export type Deployment = {
   id: string
+  description: string
+  creator: {
+    avatarUrl: string
+    login: string
+  }
+  commit: {
+    id: string
+    message: string
+  }
+  ref: Ref
+  state: string
+  payload: string
+  createdAt: string
+  updatedAt: string
+  environment: string
+
+  originalEnvironment: string
+  latestEnvironment: string
 }
 
 export type Release = {
   id: string
+}
+
+export type Ref = {
+  id: string
+  name: string
 }
 
 export type Repository = {
@@ -165,6 +206,12 @@ export type Repository = {
     releases: {
       nodes: Release[]
       pageInfo: PageInfo
+    }
+    branches: {
+      nodes: Ref[]
+    }
+    tags: {
+      nodes: Ref[]
     }
   }
 }

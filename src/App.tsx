@@ -35,7 +35,7 @@ export function getApolloClient(getToken: Promise<() => Promise<string>>) {
   return new ApolloClient(apolloConfig)
 }
 
-function App(props: { getToken: Promise<() => Promise<string>> }) {
+function App(props: { getToken: Promise<() => Promise<string>>; baseUrl: string }) {
   const client = React.useMemo(() => getApolloClient(props.getToken), [])
   return (
     <ApolloProvider client={client}>
@@ -43,7 +43,7 @@ function App(props: { getToken: Promise<() => Promise<string>> }) {
         <Grid container spacing={0} className="topNav">
           <Grid item xs={4}>
             <List component="nav" aria-label="Select">
-              <ListItem button component="a" href="/">
+              <ListItem button component="a" href={props.baseUrl}>
                 <ListItemAvatar>
                   <Avatar src="https://github.com/identicons/app/app/deployment-management"></Avatar>
                 </ListItemAvatar>

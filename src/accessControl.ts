@@ -71,25 +71,28 @@ class TokenControl {
 
 const control = new TokenControl()
 
-let tokenFetcher: Promise<() => Promise<string>>
-if (code !== null) {
-  window.history.pushState({}, document.title, window.location.pathname)
-  const data = {
-    code,
-    state,
-    redirect_uri: 'https://ashley-taylor.github.io/Deployment-Management/'
-  }
-  tokenFetcher = control.intialize(data)
-} else if (token === null) {
-  getToken()
-  tokenFetcher = Promise.resolve(() => control.getToken())
-} else {
-  const response = JSON.parse(token) as Response
-  if (response.access_token === undefined) {
+const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = (redirect_uri) => {
+  let tokenFetcher: Promise<() => Promise<string>>
+  if (code !== null) {
+    window.history.pushState({}, document.title, window.location.pathname)
+    const data = {
+      code,
+      state,
+      redirect_uri: redirect_uri
+    }
+    tokenFetcher = control.intialize(data)
+  } else if (token === null) {
     getToken()
+    tokenFetcher = Promise.resolve(() => control.getToken())
+  } else {
+    const response = JSON.parse(token) as Response
+    if (response.access_token === undefined) {
+      getToken()
+    }
+    control.set(response)
+    tokenFetcher = Promise.resolve(() => control.getToken())
   }
-  control.set(response)
-  tokenFetcher = Promise.resolve(() => control.getToken())
+  return tokenFetcher
 }
 
-export default tokenFetcher
+export default toReturn

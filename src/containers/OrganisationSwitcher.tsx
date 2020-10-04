@@ -85,7 +85,13 @@ const OrganisationSwitcher: FunctionComponent<RouteComponentProps<RouteProps>> =
 
   if (data) {
     type Option = OrganisationSummary & { url: string }
-    const options: Option[] = [{ ...data.viewer, url: '/user' + data.viewer.resourcePath }]
+    const options: Option[] = [
+      {
+        ...data.viewer,
+        url: '/user' + data.viewer.resourcePath,
+        name: data.viewer.name ? data.viewer.name : data.viewer.login
+      }
+    ]
     data.viewer.organizations.nodes.forEach((element) => {
       options.push({ ...element, url: '/organisations' + element.resourcePath })
     })

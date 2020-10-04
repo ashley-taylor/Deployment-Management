@@ -5,9 +5,13 @@ import * as serviceWorker from './serviceWorker'
 import App from './App'
 import accessControl from './accessControl'
 
+let base = process.env.PUBLIC_URL as string
+if (!base) {
+  base = 'http://localhost:3000'
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App getToken={accessControl} />
+    <App getToken={accessControl(base)} baseUrl={base} />
   </React.StrictMode>,
   document.getElementById('root')
 )
