@@ -46,7 +46,6 @@ class TokenControl {
     response.refresh_token_expires_in += now
     this.data = response
     window.localStorage.setItem('githubtoken', JSON.stringify(response))
-    return this.getToken
   }
 
   async getToken(): Promise<string> {
@@ -81,7 +80,7 @@ const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = () =>
       state,
       redirect_uri: window.location.toString()
     }
-    tokenFetcher = control.intialize(data)
+    tokenFetcher = control.intialize(data).then(() => control.getToken)
   } else if (token === null) {
     getToken()
     tokenFetcher = Promise.resolve(() => control.getToken())
