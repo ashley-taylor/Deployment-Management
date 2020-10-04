@@ -80,7 +80,7 @@ const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = () =>
       state,
       redirect_uri: window.location.toString()
     }
-    tokenFetcher = control.intialize(data).then(() => control.getToken)
+    tokenFetcher = control.intialize(data).then(() => Promise.resolve(() => control.getToken()))
   } else if (token === null) {
     getToken()
     tokenFetcher = Promise.resolve(() => control.getToken())
