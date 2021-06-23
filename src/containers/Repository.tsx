@@ -148,7 +148,7 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
         <Grid item xs={12}>
           <InputLabel>Auto Merge</InputLabel>
           <Checkbox
-            value={autoMerge}
+            checked={autoMerge}
             onChange={(event: unknown, checked: boolean) => {
               setAutoMerge(checked)
             }}
