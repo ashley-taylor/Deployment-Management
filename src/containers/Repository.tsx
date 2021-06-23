@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { REPOSITORY, Repository, CREATE_DEPLOYMENT, Deployment } from '../types/queries'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Button, Input, Grid, TextField, Select, InputLabel, MenuItem } from '@material-ui/core'
+import { Button, Grid, TextField, Select, InputLabel, MenuItem, Checkbox } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab'
 import PreviousDeployments from './PreviousDeployments'
 type RouteProps = {
@@ -25,6 +25,7 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
   const [description, setDescription] = React.useState('')
   const [payload, setPayload] = React.useState('')
   const [environment, setEnvironment] = React.useState('')
+  const [autoMerge, setAutoMerge] = React.useState(true)
 
   const name = data?.repository.defaultBranchRef.name
   React.useEffect(() => {
@@ -67,7 +68,7 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
     }
 
     const submit = {
-      autoMerge: true,
+      autoMerge: autoMerge,
       description: description,
       environment: environment,
       payload: payload,
@@ -142,6 +143,15 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
               }
             }}
             renderInput={(params) => <TextField {...params} label="Environment" />}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <InputLabel>Auto Merge</InputLabel>
+          <Checkbox
+            value={autoMerge}
+            onChange={(event: unknown, checked: boolean) => {
+              setAutoMerge(checked)
+            }}
           />
         </Grid>
         <Grid item xs={12}>
