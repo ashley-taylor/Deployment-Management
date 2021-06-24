@@ -85,7 +85,9 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
     }
 
     const redeploy = (deployment: Deployment) => {
-      setRef(deployment.ref.id)
+      if (deployment.ref) {
+        setRef(deployment.ref.id)
+      }
       setPayload(deployment.payload)
       setEnvironment(deployment.environment)
     }
@@ -122,6 +124,7 @@ const RepositoryComponent: FunctionComponent<RouteComponentProps<RouteProps>> = 
           <Autocomplete
             options={payloads}
             getOptionLabel={(option) => option}
+            freeSolo={true}
             value={payload}
             onChange={(event: unknown, newValue: string | null) => {
               if (newValue) {

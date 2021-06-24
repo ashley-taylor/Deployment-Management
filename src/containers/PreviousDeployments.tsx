@@ -16,7 +16,7 @@ const PreviousDeploymentsComponent: FunctionComponent<Props> = (props: Props) =>
           <Card>
             <CardContent>
               <Typography color="textSecondary" gutterBottom>
-                {deployment.ref.name} - {deployment.state}
+                {deployment.ref?.name} - {deployment.state}
               </Typography>
               <Typography variant="h5" component="h2">
                 {deployment.createdAt}

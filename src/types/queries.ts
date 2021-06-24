@@ -170,7 +170,7 @@ export type Deployment = {
     id: string
     message: string
   }
-  ref: Ref
+  ref?: Ref
   state: string
   payload: string
   createdAt: string
