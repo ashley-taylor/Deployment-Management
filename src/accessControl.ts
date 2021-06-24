@@ -1,4 +1,4 @@
-const token = window.localStorage.getItem('githubtoken')
+//const token = window.localStorage.getItem('githubtoken')
 let state = window.localStorage.getItem('githubstate')
 if (state === null) {
   const array = new Uint32Array(4)
@@ -81,16 +81,16 @@ const toReturn: (redirect_uri: string) => Promise<() => Promise<string>> = () =>
       redirect_uri: window.location.toString()
     }
     tokenFetcher = control.intialize(data).then(() => Promise.resolve(() => control.getToken()))
-  } else if (token === null) {
+  } else {
     getToken()
     tokenFetcher = Promise.resolve(() => control.getToken())
-  } else {
-    const response = JSON.parse(token) as Response
-    if (response.access_token === undefined) {
-      getToken()
-    }
-    control.set(response)
-    tokenFetcher = Promise.resolve(() => control.getToken())
+    // } else {
+    //   const response = JSON.parse(token) as Response
+    //   if (response.access_token === undefined) {
+    //     getToken()
+    //   }
+    //   control.set(response)
+    //   tokenFetcher = Promise.resolve(() => control.getToken())
   }
   return tokenFetcher
 }
